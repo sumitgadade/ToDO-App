@@ -1,0 +1,105 @@
+.clear {
+    clear: left;
+}
+
+.main {
+    width: 1080px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 5px 5px 30px grey, 5px 5px 10px grey;
+    text-align: center;
+    border: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+
+.main .header {
+    float: left;
+    width: 100%;
+    text-align: left;
+    background-color: #F0F0F0;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+
+.main .header h1 {
+    float: left;
+    padding: 20px 10px 20px 20px;
+    margin: 0px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px black, 0 0 30px blue, 0 0 10px darkred;
+}
+
+.login_sec {
+    margin-top: 88px;
+    padding: 0px;
+}
+
+.login_sec h2 {
+    font-size: 35px;
+    margin: 0px;
+    padding: 40px 0px 15px 0px;
+}
+
+#loginform {
+    width: 300px;
+    margin: auto;
+    text-align: left;
+    margin-bottom: 75px;
+}
+
+.formrow {
+    width: 100%;
+    margin: 20px 0px 20px 0px;
+}
+
+#loginform .formlable {
+    font-size: 20px;
+}
+
+.formrow .forminp {
+    margin: 4px 0px 10px 0px;
+}
+
+.formrow input {
+    width: 282px;
+    height: 35px;
+    border-radius: 4px;
+    border-width: 1px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding: 0px 8px 0px 8px;
+}
+
+.formrow input[text] {
+    text-transform: lowercase;
+}
+
+.lbutton {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    background-color: #4383F3;
+    border: none;
+}
+
+.lbutton:hover {
+    cursor: pointer;
+}
+
+.lbutton:active {
+    transform: translateY(4px);
+}
+
+.formrow a {
+    text-decoration: none;
+}
+
+.formrow h4 {
+    font-weight: normal;
+}

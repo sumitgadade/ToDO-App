@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TODO Registration</title>
+    <link rel="stylesheet" href="CSS/registration.css">
+    <script src="JS/registration.js "></script>
+</head>
+
+<body>
+    <section class="main">
+        <header class="header">
+            <h1>ToDo App</h1>
+        </header>
+        <div class="regis_sec">
+            <h2>Register Here</h2>
+            <form name="registration" id="registrationform">
+                <div class="formrow">
+                    <lable for="fname" class="formlable">First Name:</lable>
+                    <div class="forminp">
+                        <input type="text" id="fname" placeholder="Sumit" onclick="removeerror('fnameerror')">
+                        <div class="Error" id="fnameerror" id="Error">First Name required</div>
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="lname" class="formlable">Last Name:</lable>
+                    <div class="forminp">
+                        <input type="text" id="lname" placeholder="Gadade" onclick="removeerror('lnameerror')">
+                        <div class="Error" id="lnameerror">Last Name required</div>
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="fname" class="formlable">Gender</lable>
+                    <div class="formrdio">
+                        <input type="radio" name="gender" id="male" value="male" onclick="removeerror('gendererror')">Male
+                        <input type="radio" name="gender" id="female" value="female" onclick="removeerror('gendererror')">Female
+                        <input type="radio" name="gender" id="other" value="other" onclick="removeerror('gendererror')">Other
+                        <div class="Error" id="gendererror">Gender required</div>
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="addr" class="formlable">Address:</lable>
+                    <div class="forminp">
+                        <input type="text" id="addr" placeholder="Address" onclick="removeerror('addrerror')">
+                        <div class="Error" id="addrerror">Address required</div>
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="email" class="formlable">Email:</lable>
+                    <div class="forminp">
+                        <input style="text-transform: lowercase;" type="text" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="example@gmail.com " onclick="removeerror('emailerror')">
+                        <div class="Error" id="emailerror">Email required</div>
+                    </div>
+                </div>
+                <div class="formrow ">
+                    <lable for="password" class="formlable">Password:</lable>
+                    <div class="forminp">
+                        <input type="password" id="password" placeholder="password" onclick="removeerror('passworderror')">
+                        <div class="Error" id="passworderror">Password required</div>
+                    </div>
+                </div>
+                <div class="formrow ">
+                    <lable for="cpassword" class="formlable ">Confirm Password:</lable>
+                    <div class="forminp ">
+                        <input type="password" id="cpassword" placeholder="confirm password" onclick="removeerror('cpassworderror')">
+                        <div class="Error" id="cpassworderror">password required</div>
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="file" id="profileImage" class=" formlable ">Profile Photo:</lable>
+                    <div class=" forminp ">
+                        <input type="file" id="profileimage" onclick="removeerror('profileimageerror')">
+                        <div class="Error" id="profileimageerror">Profile Image required</div>
+                    </div>
+                </div>
+                <div class="formrow ">
+                    <button type="button" class="lbutton" onclick="registeruser()">Register</button>
+                </div>
+                <div class="formrow">
+                    <h4>Already User??
+                        <a href="login.html ">Login</a></h4>
+                </div>
+            </form>
+        </div>
+        <div class=" clear "></div>
+    </section>
+</body>
+
+</html>

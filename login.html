@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TODO Login</title>
+    <link rel="stylesheet" href="CSS/login.css">
+    <script src="JS/login.js"></script>
+</head>
+
+<body>
+    <section class="main">
+        <header class="header">
+            <h1>ToDo App</h1>
+        </header>
+        <div class="login_sec">
+            <h2>Login</h2>
+            <form name="loginform" id="loginform" action="dashboard.html">
+                <div class="formrow">
+                    <lable for="email" class="formlable">Email:</lable>
+                    <div class="forminp">
+                        <input style="text-transform: lowercase;" type="text" id="loginid" placeholder="example@gmail.com">
+                    </div>
+                </div>
+                <div class="formrow">
+                    <lable for="email" class="formlable">Password:</lable>
+                    <div class="forminp ">
+                        <input type="password" id="password" placeholder="password">
+                    </div>
+                </div>
+                <div class="formrow">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <div class="formrow">
+                    <button type="button" class="lbutton" onclick="loginUser()">Login</button>
+                </div>
+                <div class="formrow ">
+                    <h4>Dont Have an account?
+                        <a href="registration.html">Sign Up</a></h4>
+                </div>
+            </form>
+        </div>
+        <div class=" clear "></div>
+    </section>
+</body>
+
+</html>
