@@ -50,7 +50,8 @@
     padding: 40px 0px 15px 0px;
 }
 
-#registrationform {
+#registrationform,
+#uregistrationform {
     width: 300px;
     margin: auto;
     text-align: left;

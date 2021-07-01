@@ -7,7 +7,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
 function showprofilecontaint() {
     var currentUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
-    console.log(currentUser);
     if (currentUser) {
         document.getElementById("fname").value = currentUser.fname;
         document.getElementById("lname").value = currentUser.lname;
@@ -20,17 +19,45 @@ function showprofilecontaint() {
         } else {
             document.getElementById("other").checked = true;
         }
-        console.log(currentUser.profileimage);
         document.getElementById("profileImage").src = currentUser.profileimage;
     } else {
         window.location = "login.html";
     }
 }
 
+function updateprofile() {
+    var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    var userlist = JSON.parse(localStorage.getItem("users"));
+    var updateduser = userlist.find(function(user) { return user.email == loggedInUser.email });
+    var updateduserindex = userlist.findIndex(function(user) { return user.email = loggedInUser.email });
+
+    updateduser.fname = document.getElementById('ufname').value;
+    updateduser.lname = document.getElementById('ulname').value;
+    updateduser.gender = document.querySelector('input[name="ugender"]:checked').value;
+    updateduser.addr = document.getElementById('uaddr').value;
+    updateduser.profileimage = document.getElementById('uprofileimage').files[0];
+
+    for (keys in userlist[updateduserindex]) {
+        userlist[updateduserindex] = updateduser;
+    }
+    localStorage.setItem("Users", JSON.stringify(userlist));
+    sessionStorage.setItem("loggedInUser", JSON.stringify(userlist[updateduserindex]));
+    alert("Profile updated");
+    showprofile();
+}
+
+function disupdtprof() {
+    document.getElementById("regis_sec").style.display = 'block';
+    document.getElementById("addtodo").style.display = 'none';
+    document.getElementById("profile").style.display = 'none';
+    document.getElementById("displayTodo").style.display = "none";
+}
+
 function showprofile() {
     document.getElementById("profile").style.display = "block";
     document.getElementById("addtodo").style.display = 'none';
     document.getElementById("displayTodo").style.display = "none";
+    document.getElementById("regis_sec").style.display = 'none';
     showprofilecontaint();
 }
 

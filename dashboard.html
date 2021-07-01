@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="CSS/registration.css">
     <script src="JS/profile.js"></script>
     <script src="JS/dashboard.js"></script>
+    <link rel="stylesheet" href="CSS/registration.css">
 </head>
 
 <body onload="displaytodo()">
@@ -24,30 +25,32 @@
                 <button class="button" onclick="deletetodo()">Delete checked task</button>
                 <h1>Search By-</h1>
                 <div class="searchinp">
-                    <input type="radio" name="radio"><input type="text" name="searchname" placeholder="Search by name">
+                    <input type="radio" name="search" id="search" value="searchbyname">
+                    <input type="text" id="searchname" placeholder="Search by name">
                 </div>
                 <div class="searchinp">
-                    <input type="radio" name="radio">
-                    <select id="searchopn">
-                    <option>Search By Catagory...</option>
-                    <option>Personal</option>
-                    <option>Work</option>
-                </select>
+                    <input type="radio" name="search" id="search" value="searchbycatagory">
+                    <select id="searchcat">
+                        <option value="">Search By Catagory...</option>
+                        <option value="personal">Personal</option>
+                        <option value="work">Work</option>
+                    </select>
                 </div>
                 <div class="searchinp">
-                    <input type="radio" name="radio">
-                    <select id="searchopn">
-                    <option>Search By Status...</option>
-                    <option>isPending</option>
-                    <option>isDone</option>
-                </select>
+                    <input type="radio" name="search" id="search" value="searchbystatus">
+                    <select id="searchstatus">
+                        <option value="">Search By Status...</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                    </select>
                 </div>
-                <button class="button">Search</button>
+                <button class="button" onclick="search()">Search</button>
             </section>
             <section class=" containt">
                 <div class="displayTodo" id="displayTodo">
                 </div>
                 <div class="addtodo" id="addtodo">
+                    <h2>Add ToDo</h2>
                     <div class="regis_sec">
                         <form name="registration" id="registrationform">
                             <div class="formrow">
@@ -75,7 +78,7 @@
                             <div class="formrow">
                                 <lable for="catagory" class="formlable">Catagory:</lable>
                                 <div class="formrdio">
-                                    <input type="checkbox" name="catagory" id="home" value="home" onclick="removeerror('catagoryerror')">Home
+                                    <input type="checkbox" name="catagory" id="work" value="work" onclick="removeerror('catagoryerror')">Work
                                     <input type="checkbox" name="catagory" id="personal" value="personal" onclick="removeerror('catagoryerror')">personal
                                     <div class="Error" id="catagoryerror">required</div>
                                 </div>
@@ -103,7 +106,7 @@
                 </div>
                 <div class="profile" id="profile">
                     <div class="pro_row">
-                        <button type="button " class="button ubutton">Update Profile</button>
+                        <button type="button " class="button ubutton" onclick="disupdtprof()">Update Profile</button>
                     </div>
                     <div class="pro_row">
                         <div class="pro_image">
@@ -142,6 +145,46 @@
                             <input type="text" id="addr" readonly>
                         </div>
                     </div>
+                </div>
+                <div class="regis_sec" id="regis_sec">
+                    <h2>Update Profile</h2>
+                    <form name="registration" id="uregistrationform">
+                        <div class="formrow">
+                            <lable for="fname" class="formlable">First Name:</lable>
+                            <div class="forminp">
+                                <input type="text" id="ufname" placeholder="Sumit">
+                            </div>
+                        </div>
+                        <div class="formrow">
+                            <lable for="lname" class="formlable">Last Name:</lable>
+                            <div class="forminp">
+                                <input type="text" id="ulname" placeholder="Gadade">
+                            </div>
+                        </div>
+                        <div class="formrow">
+                            <lable for="fname" class="formlable">Gender</lable>
+                            <div class="formrdio">
+                                <input type="radio" name="ugender" id="umale" value="male">Male
+                                <input type="radio" name="ugender" id="ufemale" value="female">Female
+                                <input type="radio" name="ugender" id="uother" value="other">Other
+                            </div>
+                        </div>
+                        <div class="formrow">
+                            <lable for="addr" class="formlable">Address:</lable>
+                            <div class="forminp">
+                                <input type="text" id="uaddr" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="formrow">
+                            <lable for="file" id="uprofileImage" class=" formlable ">Profile Photo:</lable>
+                            <div class=" forminp ">
+                                <input type="file" id="uprofileimage">
+                            </div>
+                        </div>
+                        <div class="formrow ">
+                            <button type="button" class="lbutton" onclick="updateprofile()">Update Profile</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="clear"></div>
             </section>

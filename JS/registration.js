@@ -7,7 +7,13 @@ function registeruser() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
     let cpass = document.getElementById("cpassword").value;
-    let profileImage = document.getElementById("profileimage").files[0];
+    var profileImage = document.getElementById("profileimage").files[0];
+
+    /*const reader = new FileReader();
+    reader.readAsDataURL(document.getElementById("profileimage").files[0]);
+    reader.addEventListener("load", () => {
+        console.log(reader.result);
+    });*/
 
     data = {
         fname: fname,
@@ -19,7 +25,6 @@ function registeruser() {
         cpass: cpass,
         profileimage: profileImage
     };
-
 
     var isvalidData = validateData(data);
 

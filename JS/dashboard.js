@@ -75,16 +75,14 @@ function validateData(todo, remainder) {
 }
 
 function displaytodo() {
-
-    document.getElementById("displayTodo").style.display = "block";
-    document.getElementById("profile").style.display = "none";
-    document.getElementById("addtodo").style.display = 'none';
+    displaytotosection();
 
     var userlist = JSON.parse(localStorage.getItem("users"));
     var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
     var todoList = userlist.find(u => u.email == loggedInUser.email).todo;
     let displaydiv = document.getElementById("displayTodo");
     let rowshtml = '<h2>ToDo Items</h2><table style="border:1px solid black; width:100%;"> <tr><th></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
+    var remaindernames = [];
     if (todoList.length > 0) {
         for (var i = 0; i < todoList.length; i++) {
             rowshtml += `<tr>
@@ -97,9 +95,16 @@ function displaytodo() {
             <td><button type="button"  onclick="edit('${todoList[i].todoname}')">Edit</button></td>
             <td>${todoList[i].remainderdate}</td>
               </tr>`;
-
+            var remdate = new Date(todoList[i].remainderdate);
+            var currdate = new Date();
+            if ((remdate.toDateString() == currdate.toDateString()) && todoList[i].status == "pending") {
+                remaindernames.push(todoList[i].todoname);
+            }
         }
         rowshtml += "</table>";
+        if (remaindernames.length > 0) {
+            alert("Remainder!! Remainder for tasks " + remaindernames);
+        }
     } else {
         rowshtml = '<h1 style="font-size:40px;">No ToDo\'s to display </h1>';
     }
@@ -165,6 +170,72 @@ function markasdone(name) {
     displaytodo();
 }
 
+function search() {
+    displaytotosection();
+    var userlist = JSON.parse(localStorage.getItem("users"));
+    var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    var todoList = userlist.find(u => u.email == loggedInUser.email).todo;
+    let searchby = document.querySelector("input[name=search]:checked").value;
+
+
+    if (searchby == "searchbyname") {
+        let sname = document.getElementById("searchname").value;
+        todoList = todoList.filter(function(todo) { return todo.todoname == sname });
+        displaysearchtodo(todoList);
+
+    } else if (searchby == "searchbycatagory") {
+        var searchcatagory = document.getElementById("searchcat").value;
+        if (searchcatagory == "") {
+            alert("Please select proper option!!");
+            displaytodo();
+        } else {
+            todoList = todoList.filter(function(todo) { return todo.catagoryVals[0] == searchcatagory || todo.catagoryVals[1] == searchcatagory });
+            displaysearchtodo(todoList);
+        }
+
+    } else if (searchby == "searchbystatus") {
+        var searchstatus = document.getElementById("searchstatus").value;
+
+        if (searchstatus == "") {
+            alert("Please select proper option!!");
+            displaytodo();
+        } else {
+            todoList = todoList.filter(function(todo) { return todo.status == searchstatus });
+            displaysearchtodo(todoList);
+        }
+    }
+}
+
+function displaysearchtodo(todoList) {
+    let displaydiv = document.getElementById("displayTodo");
+    let rowshtml = '<h2>ToDo Items</h2><table style="border:1px solid black; width:100%;"> <tr><th></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
+    if (todoList.length > 0) {
+        for (var i = 0; i < todoList.length; i++) {
+            rowshtml += `<tr>
+            <td><input type="checkbox" name="todoCheckbox" value="${todoList[i].todoname}"></td>
+            <td>${todoList[i].todoname}</td>
+            <td>${todoList[i].tododate}</td>
+            <td>${todoList[i].catagoryVals}</td>
+            <td>${(todoList[i].status)!="pending"?"<text style='color:green;'><b>Completed</b></text>":"<text style='color:red;'><b>Pending</b></text>"}</td>
+            <td><button type="button"  onclick="markasdone('${todoList[i].todoname}')">Mark as done</button></td>
+            <td><button type="button"  onclick="edit('${todoList[i].todoname}')">Edit</button></td>
+            <td>${todoList[i].remainderdate}</td>
+            </tr>`;
+        }
+        rowshtml += "</table>";
+    } else {
+        rowshtml = '<h1 style="font-size:40px;">No ToDo\'s to display </h1>';
+    }
+    displaydiv.innerHTML = rowshtml;
+}
+
+function displaytotosection() {
+    document.getElementById("displayTodo").style.display = "block";
+    document.getElementById("profile").style.display = "none";
+    document.getElementById("addtodo").style.display = 'none';
+    document.getElementById("regis_sec").style.display = 'none';
+}
+
 function displaydate() {
     document.getElementById("remendrdate").style.display = 'block';
 }
@@ -177,6 +248,7 @@ function showaddtodo() {
     document.getElementById("addtodo").style.display = 'block';
     document.getElementById("profile").style.display = 'none';
     document.getElementById("displayTodo").style.display = "none";
+    document.getElementById("regis_sec").style.display = 'none';
 }
 
 function removeerror(divid) {
