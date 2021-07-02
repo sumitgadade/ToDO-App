@@ -70,7 +70,8 @@
                 <div class="formrow">
                     <lable for="file" id="profileImage" class=" formlable ">Profile Photo:</lable>
                     <div class=" forminp ">
-                        <input type="file" id="profileimage" onclick="removeerror('profileimageerror')">
+                        <input type="file" id="profileimage" onchange="getImageData();" onclick="removeerror('profileimageerror')">
+                        <img id="previewimage">
                         <div class="Error" id="profileimageerror">Profile Image required</div>
                     </div>
                 </div>

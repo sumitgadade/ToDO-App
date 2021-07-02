@@ -7,13 +7,7 @@ function registeruser() {
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
     let cpass = document.getElementById("cpassword").value;
-    var profileImage = document.getElementById("profileimage").files[0];
-
-    /*const reader = new FileReader();
-    reader.readAsDataURL(document.getElementById("profileimage").files[0]);
-    reader.addEventListener("load", () => {
-        console.log(reader.result);
-    });*/
+    var profileImage = document.getElementById("profileimage").src;
 
     data = {
         fname: fname,
@@ -27,6 +21,7 @@ function registeruser() {
     };
 
     var isvalidData = validateData(data);
+
 
     if (isvalidData) {
         var users = JSON.parse(localStorage.getItem('users')) || [];
@@ -46,6 +41,16 @@ function registeruser() {
         window.location = "login.html";
     }
 };
+
+function getImageData() {
+    var input = document.getElementById("profileimage");
+    var imagereader = new FileReader();
+    imagereader.readAsDataURL(input.files[0]);
+    imagereader.onloadend = function(event) {
+        var profileImage = document.getElementById("profileimage");
+        profileImage.src = event.target.result;
+    }
+}
 
 function isemailexist(email) {
     var flag = false;

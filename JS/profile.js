@@ -35,7 +35,7 @@ function updateprofile() {
     updateduser.lname = document.getElementById('ulname').value;
     updateduser.gender = document.querySelector('input[name="ugender"]:checked').value;
     updateduser.addr = document.getElementById('uaddr').value;
-    updateduser.profileimage = document.getElementById('uprofileimage').files[0];
+    updateduser.profileimage = document.getElementById('uprofileimage').src;
 
     for (keys in userlist[updateduserindex]) {
         userlist[updateduserindex] = updateduser;
@@ -44,6 +44,16 @@ function updateprofile() {
     sessionStorage.setItem("loggedInUser", JSON.stringify(userlist[updateduserindex]));
     alert("Profile updated");
     showprofile();
+}
+
+function getImageData() {
+    var input = document.getElementById("uprofileimage");
+    var imagereader = new FileReader();
+    imagereader.readAsDataURL(input.files[0]);
+    imagereader.onloadend = function(event) {
+        var profileImage = document.getElementById("uprofileimage");
+        profileImage.src = event.target.result;
+    }
 }
 
 function disupdtprof() {
