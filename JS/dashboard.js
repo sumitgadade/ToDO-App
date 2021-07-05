@@ -206,6 +206,20 @@ function search() {
     }
 }
 
+function sort() {
+    displaytotosection();
+    var userlist = JSON.parse(localStorage.getItem("users"));
+    var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    var todoList = userlist.find(u => u.email == loggedInUser.email).todo;
+
+    todoList.sort((a, b) => {
+        let da = new Date(a.tododate),
+            db = new Date(b.tododate);
+        return da - db;
+    });
+    displaysearchtodo(todoList);
+}
+
 function displaysearchtodo(todoList) {
     let displaydiv = document.getElementById("displayTodo");
     let rowshtml = '<h2>ToDo Items</h2><table style="border:1px solid black; width:100%;"> <tr><th></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
