@@ -103,7 +103,7 @@ function displaytodo() {
         }
         rowshtml += "</table>";
         if (remaindernames.length > 0) {
-            alert("Remainder!! Remainder for tasks " + remaindernames);
+            //alert("Remainder!! Remainder for tasks \"" + remaindernames + "\"");
         }
     } else {
         rowshtml = '<h1 style="font-size:40px;">No ToDo\'s to display </h1>';
@@ -180,8 +180,12 @@ function search() {
 
     if (searchby == "searchbyname") {
         let sname = document.getElementById("searchname").value;
-        todoList = todoList.filter(function(todo) { return todo.todoname == sname });
-        displaysearchtodo(todoList);
+        if (sname == "") {
+            alert("Enter a Proper value for search!!");
+        } else {
+            todoList = todoList.filter(function(todo) { return todo.todoname == sname });
+            displaysearchtodo(todoList);
+        }
 
     } else if (searchby == "searchbycatagory") {
         var searchcatagory = document.getElementById("searchcat").value;
