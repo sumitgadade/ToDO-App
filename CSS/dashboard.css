@@ -188,11 +188,12 @@
 
 .addtodo {
     display: none;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 #addtodo h2 {
     font-size: 40px;
+    margin-top: 20px;
 }
 
 .edittodo {

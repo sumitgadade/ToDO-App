@@ -1,3 +1,10 @@
+(function() {
+    let currentUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    if (currentUser != undefined) {
+        window.location = "dashboard.html";
+    }
+})();
+
 function loginUser() {
     let loginid = document.getElementById("loginid").value;
     let password = document.getElementById("password").value;

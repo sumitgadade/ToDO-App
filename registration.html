@@ -20,7 +20,7 @@
                     <lable for="fname" class="formlable">First Name:</lable>
                     <div class="forminp">
                         <input type="text" id="fname" placeholder="First Name" onclick="removeerror('fnameerror')">
-                        <div class="Error" id="fnameerror" id="Error">First Name required</div>
+                        <div class="Error" id="fnameerror">First Name required</div>
                     </div>
                 </div>
                 <div class="formrow">
@@ -33,9 +33,11 @@
                 <div class="formrow">
                     <lable for="fname" class="formlable">Gender</lable>
                     <div class="formrdio">
-                        <input type="radio" name="gender" id="male" value="male" onclick="removeerror('gendererror')">Male
-                        <input type="radio" name="gender" id="female" value="female" onclick="removeerror('gendererror')">Female
-                        <input type="radio" name="gender" id="other" value="other" onclick="removeerror('gendererror')">Other
+                        <input type="radio" name="gender" id="male" value="male" onclick="removeerror('gendererror')">
+                        <label for="male">Male</label>
+                        <input type="radio" name="gender" id="female" value="female" onclick="removeerror('gendererror')">
+                        <label for="female">Female</label>
+                        <input type="radio" name="gender" id="other" value="other" onclick="removeerror('gendererror')"><label for="other">Other</label>
                         <div class="Error" id="gendererror">Gender required</div>
                     </div>
                 </div>

@@ -6,19 +6,40 @@
 
 })();
 
+var editTodoData;
+
+
 function addToDo() {
     let todoname = document.getElementById("todoname").value;
     let tododate = document.getElementById("tododate").value;
-    let ispublic = document.querySelector("input[name=ispublic]:checked").value;
     let catagory = document.querySelectorAll("input[name=catagory]:checked");
     var catagoryVals = [];
     for (var i = 0; i < catagory.length; i++) {
         catagoryVals.push(catagory[i].value);
     }
-    let remdate = '-';
-    var isReminder = document.querySelector('input[name="remainder"]:checked').value;
-    if (isReminder == 'yes') {
+
+    let ispublic;
+
+    if (document.getElementById("pyes").checked) {
+        ispublic = "yes";
+    } else if (document.getElementById("pno").checked) {
+        ispublic = "no";
+    } else {
+        gender = "";
+    }
+
+    let remdate;
+    let isRemainder;
+
+    if (document.getElementById("yesrem").checked) {
+        isRemainder = "yes";
         remdate = document.getElementById("remrdate").value;
+    } else if (document.getElementById("norem").checked) {
+        isRemainder = "no";
+        remdate = '-';
+    } else {
+        isRemainder = "";
+        remdate = "";
     }
 
     var new_todo = {
@@ -29,7 +50,7 @@ function addToDo() {
         catagoryVals: catagoryVals,
         remainderdate: remdate
     };
-    if (validateData(new_todo, isReminder)) {
+    if (validateData(new_todo, isRemainder)) {
         var userlist = JSON.parse(localStorage.getItem("users"));
         var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
         var todo = userlist.find(u => u.email == loggedInUser.email).todo;
@@ -67,8 +88,30 @@ function validateData(todo, remainder) {
         document.getElementById("catagoryerror").style.display = "block";
         return false;
     }
+    if (remainder == "") {
+        document.getElementById("remaindererror").style.display = "block";
+        return false;
+    }
     if (remainder == 'yes' && (todo.remainderdate == undefined || todo.remainderdate == "")) {
         document.getElementById("remdateerror").style.display = "block";
+        return false;
+    }
+    var todaydate = new Date();
+    var tdate = new Date(todo.tododate);
+    var rdate = new Date(todo.remainderdate);
+    todaydate.setHours(0, 0, 0, 0);
+    tdate.setHours(0, 0, 0, 0);
+    rdate.setHours(0, 0, 0, 0);
+
+    if (tdate < todaydate) {
+        document.getElementById("tododateerror").style.display = "block";
+        document.getElementById("tododateerror").innerHTML = "ToDo date should be greater than or equal to todays date!!";
+        return false;
+    }
+
+    if (rdate < todaydate || rdate > tdate) {
+        document.getElementById("remdateerror").style.display = "block";
+        document.getElementById("remdateerror").innerHTML = "Remainder date should be between todays date and ToDo date!!";
         return false;
     }
     return true;
@@ -92,7 +135,7 @@ function displaytodo() {
             <td>${todoList[i].catagoryVals}</td>
             <td>${(todoList[i].status)!="pending"?"<text style='color:green;'><b>Completed</b></text>":"<text style='color:red;'><b>Pending</b></text>"}</td>
             <td><button type="button"  onclick="markasdone('${todoList[i].todoname}')">Mark as done</button></td>
-            <td><button type="button"  onclick="edit('${todoList[i].todoname}')">Edit</button></td>
+            <td><button type="button"  onclick="showeditToDo('${todoList[i].todoname}')">Edit</button></td>
             <td>${todoList[i].remainderdate}</td>
               </tr>`;
             var remdate = new Date(todoList[i].remainderdate);
@@ -111,19 +154,81 @@ function displaytodo() {
     displaydiv.innerHTML = rowshtml;
 }
 
-function edit(tname) {
+function editToDo() {
 
-    showaddtodo();
     var userlist = JSON.parse(localStorage.getItem("users"));
     var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
-    var todoList = userlist.find(function(u) { return u.email = loggedInUser.email }).todo;
-    var index = userlist.findIndex(function(u) { return u.email = loggedInUser.email });
 
-    todoList = todoList.filter(function(todo) { return todo.todoname != tname });
+    var todoList = userlist.find(function(u) { return u.email == loggedInUser.email }).todo;
 
-    userlist[index].todo = todoList;
-    localStorage.setItem("users", JSON.stringify(userlist));
+    var index;
+    for (var i = 0; i < todoList.length; i++) {
+        if (todoList[i].todoname == editTodoData) {
+            index = i;
+            break;
+        }
+    }
+    /*    let todoname = document.getElementById("todoname").value;
+        let tododate = document.getElementById("tododate").value;
+        let catagory = document.querySelectorAll("input[name=catagory]:checked");
+        var catagoryVals = [];
+        for (var i = 0; i < catagory.length; i++) {
+            catagoryVals.push(catagory[i].value);
+        }
+
+        let ispublic;
+
+        if (document.getElementById("pyes").checked) {
+            ispublic = "yes";
+        } else if (document.getElementById("pno").checked) {
+            ispublic = "no";
+        } else {
+            gender = "";
+        }
+
+        let remdate;
+        let isRemainder;
+
+        if (document.getElementById("yesrem").checked) {
+            isRemainder = "yes";
+            remdate = document.getElementById("remrdate").value;
+        } else if (document.getElementById("norem").checked) {
+            isRemainder = "no";
+            remdate = '-';
+        } else {
+            isRemainder = "";
+            remdate = "";
+        }
+
+        var new_todo = {
+            todoname: todoname,
+            tododate: tododate,
+            ispublic: ispublic,
+            status: "pending",
+            catagoryVals: catagoryVals,
+            remainderdate: remdate
+        };
+        if (validateData(new_todo, isRemainder)) {
+            var userlist = JSON.parse(localStorage.getItem("users"));
+            var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+            var todo = userlist.find(u => u.email == loggedInUser.email).todo;
+            if (todo == null) {
+                todo = [];
+            }
+            todo.push(new_todo);
+            for (var i = 0; i < userlist.length; i++) {
+                if (userlist[i].email == loggedInUser.email) {
+                    userlist[i].todo = todo;
+                    break;
+                }
+            }
+            localStorage.setItem("users", JSON.stringify(userlist));
+            alert("Successfull!!");
+            window.location = "dashboard.html";
+        }
+    */
 }
+
 
 function deletetodo() {
     var userlist = JSON.parse(localStorage.getItem("users"));
@@ -252,14 +357,22 @@ function displaytotosection() {
     document.getElementById("profile").style.display = "none";
     document.getElementById("addtodo").style.display = 'none';
     document.getElementById("regis_sec").style.display = 'none';
+    document.getElementById("edittodo").style.display = 'none';
+
 }
 
 function displaydate() {
+    removeerror('remaindererror')
     document.getElementById("remendrdate").style.display = 'block';
+    removeerror('eremaindererror')
+    document.getElementById("eremendrdate").style.display = 'block';
 }
 
 function removedate() {
+    removeerror('remaindererror')
     document.getElementById("remendrdate").style.display = 'none';
+    removeerror('eremaindererror')
+    document.getElementById("eremendrdate").style.display = 'none';
 }
 
 function showaddtodo() {
@@ -267,6 +380,55 @@ function showaddtodo() {
     document.getElementById("profile").style.display = 'none';
     document.getElementById("displayTodo").style.display = "none";
     document.getElementById("regis_sec").style.display = 'none';
+    document.getElementById("edittodo").style.display = 'none';
+}
+
+function showeditToDo(a) {
+    editTodoData = a;
+    document.getElementById("edittodo").style.display = 'block';
+    document.getElementById("addtodo").style.display = 'none';
+    document.getElementById("profile").style.display = 'none';
+    document.getElementById("displayTodo").style.display = "none";
+    document.getElementById("regis_sec").style.display = 'none';
+
+    var userlist = JSON.parse(localStorage.getItem("users"));
+    var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+
+    var todoList = userlist.find(function(u) { return u.email == loggedInUser.email }).todo;
+
+    var index;
+    for (var i = 0; i < todoList.length; i++) {
+        if (todoList[i].todoname == editTodoData) {
+            index = i;
+            break;
+        }
+    }
+    console.log(todoList[index], index);
+    document.getElementById("etodoname").value = todoList[index].todoname;
+    document.getElementById("etododate").value = todoList[index].tododate;
+    if (todoList[i].ispublic == "yes") {
+        document.getElementById("epyes").checked = true;
+    } else {
+        document.getElementById("epno").checked = true;
+    }
+    if (todoList[i].catagoryVals[0] == "work") {
+        document.getElementById("ework").checked = true;
+    }
+    if (todoList[i].catagoryVals[0] == "personal") {
+        document.getElementById("epersonal").checked = true;
+    }
+    if (todoList[i].catagoryVals[1] == "work") {
+        document.getElementById("ework").checked = true;
+    }
+    if (todoList[i].catagoryVals[1] == "personal") {
+        document.getElementById("epersonal").checked = true;
+    }
+    if (todoList[i].remainderdate != "-") {
+        document.getElementById("eyesrem").checked = true;
+        document.getElementById("eremrdate").value = todoList[index].remainderdate;
+    } else {
+        document.getElementById("enorem").checked = true;
+    }
 }
 
 function removeerror(divid) {
