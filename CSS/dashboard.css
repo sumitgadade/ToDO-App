@@ -1,5 +1,10 @@
+body {
+    text-align: center;
+    margin: 0px;
+}
+
 .clear {
-    clear: left;
+    clear: both;
 }
 
 .button {
@@ -22,15 +27,7 @@
     transform: translateY(4px);
 }
 
-.main_cont {
-    margin-bottom: 30px;
-}
-
 .main {
-    width: 1080px;
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
     box-shadow: 5px 5px 30px grey, 5px 5px 10px grey;
     text-align: center;
     border: solid;
@@ -60,7 +57,7 @@
 
 .main .menu {
     float: left;
-    width: 25%;
+    width: 24.9%;
     text-align: left;
     border-right: solid;
     border-width: 1px;
@@ -70,7 +67,7 @@
 
 .main .containt {
     float: right;
-    width: 74%;
+    width: 75%;
 }
 
 .main .header .button {
@@ -192,8 +189,16 @@
 }
 
 #addtodo h2 {
-    font-size: 40px;
     margin-top: 20px;
+}
+
+.displayTodo .button {
+    float: right;
+    margin: 0px 10px 10px;
+}
+
+.displayTodo h2 {
+    margin-bottom: 0px;
 }
 
 .edittodo {
@@ -204,4 +209,5 @@ table,
 th,
 td {
     border: 1px solid black;
+    padding: 3px;
 }

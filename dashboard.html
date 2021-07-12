@@ -4,269 +4,272 @@
 <head>
     <meta charset="UTF-8" />
     <title>TODO Dashboard</title>
-    <link rel="stylesheet" href="CSS/dashboard.css">
     <link rel="stylesheet" href="CSS/registration.css">
+    <link rel="stylesheet" href="CSS/dashboard.css">
     <script src="JS/profile.js"></script>
     <script src="JS/dashboard.js"></script>
-    <link rel="stylesheet" href="CSS/registration.css">
 </head>
 
 <body onload="displaytodo()">
-    <section class="main">
-        <header class="header">
-            <h1>ToDo App</h1>
-            <button class="button" onclick="logout()">Logout</button>
-        </header>
-        <section class="main_cont">
-            <section class="menu">
-                <button class="button" onclick="displaytodo()">Dashboard</button>
-                <button class="button" onclick="showprofile()">Profile</button>
-                <button class="button" onclick="showaddtodo()">Add New Task</button>
-                <button class="button" onclick="deletetodo()">Delete checked task</button>
-                <button class="button" onclick="sort()">Sort</button>
-                <h1>Search By-</h1>
-                <div class="searchinp">
-                    <input type="radio" name="search" id="search" value="searchbyname">
-                    <input type="text" id="searchname" placeholder="Search by name">
-                </div>
-                <div class="searchinp">
-                    <input type="radio" name="search" id="search" value="searchbycatagory">
-                    <select id="searchcat">
+    <section class="box">
+        <section class="main">
+            <header class="header">
+                <h1>ToDo App</h1>
+                <button class="button" onclick="logout()">Logout</button>
+            </header>
+            <section class="main_cont">
+                <section class="menu">
+                    <button class="button" onclick="displaytodo()">Dashboard</button>
+                    <button class="button" onclick="showprofile()">Profile</button>
+                    <button class="button" onclick="showaddtodo()">Add New Task</button>
+                    <h1>Search By-</h1>
+                    <div class="searchinp">
+                        <select id="searchcat">
                         <option value="">Search By Catagory...</option>
                         <option value="personal">Personal</option>
                         <option value="work">Work</option>
                     </select>
-                </div>
-                <div class="searchinp">
-                    <input type="radio" name="search" id="search" value="searchbystatus">
-                    <select id="searchstatus">
+                    </div>
+                    <div class="searchinp">
+                        <select id="searchstatus">
                         <option value="">Search By Status...</option>
                         <option value="completed">Completed</option>
                         <option value="pending">Pending</option>
                     </select>
-                </div>
-                <button class="button" onclick="search()">Search</button>
-            </section>
-            <section class=" containt">
-                <div class="displayTodo" id="displayTodo">
-                </div>
-                <div class="addtodo" id="addtodo">
-                    <h2>Add ToDo</h2>
-                    <div class="regis_sec">
-                        <form name="registration" id="registrationform">
-                            <div class="formrow">
-                                <lable for="todoname" class="formlable">ToDo Name:</lable>
-                                <div class="forminp">
-                                    <input type="text" id="todoname" placeholder="todo name" onclick="removeerror('todonameerror')">
-                                    <div class="Error" id="todonameerror" id="Error">ToDo Name required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="todoname" class="formlable">ToDo Date:</lable>
-                                <div class="forminp">
-                                    <input type="date" id="tododate" onclick="removeerror('tododateerror')">
-                                    <div class="Error" id="tododateerror" id="Error">ToDo Date required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Is public:</lable>
-                                <div class="formrdio">
-                                    <input type="radio" name="ispublic" id="pyes" value="yes" onclick="removeerror('publicerror')">
-                                    <label for="pyes">Yes</label>
-                                    <input type="radio" name="ispublic" id="pno" value="no" onclick="removeerror('publicerror')">
-                                    <label for="pno">No</label>
-                                    <div class="Error" id="publicerror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Catagory:</lable>
-                                <div class="formrdio">
-                                    <input type="checkbox" name="catagory" id="work" value="work" onclick="removeerror('catagoryerror')">
-                                    <label for="work">Work</label>
-                                    <input type="checkbox" name="catagory" id="personal" value="personal" onclick="removeerror('catagoryerror')">
-                                    <label for="personal">Personal</label>
-                                    <div class="Error" id="catagoryerror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Is Remainder:</lable>
-                                <div class="formrdio">
-                                    <input type="radio" name="remainder" id="yesrem" value="yes" onclick="displaydate()">
-                                    <label for="yesrem">Yes</label>
-                                    <input type="radio" name="remainder" id="norem" value="no" onclick="removedate('remaindererror')">
-                                    <label for="norem">No</label>
-                                    <div class="Error" id="remaindererror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow" id="remendrdate">
-                                <lable for="todoname" class="formlable">Remainder Date:</lable>
-                                <div class="forminp">
-                                    <input type="date" id="remrdate" onclick="removeerror('remdateerror')">
-                                    <div class="Error" id="remdateerror" id="Error">Date required</div>
-                                </div>
-                            </div>
-                            <div class="formrow ">
-                                <button type="button" class="lbutton" onclick="addToDo()">Add ToDo</button>
-                            </div>
-                        </form>
                     </div>
-                </div>
-                <div class="edittodo" id="edittodo">
-                    <h2>Edit ToDo</h2>
-                    <div class="regis_sec">
-                        <form name="registration" id="eregistrationform">
-                            <div class="formrow">
-                                <lable for="todoname" class="formlable">ToDo Name:</lable>
-                                <div class="forminp">
-                                    <input type="text" id="etodoname" placeholder="todo name" onclick="removeerror('etodonameerror')">
-                                    <div class="Error" id="etodonameerror">ToDo Name required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="todoname" class="formlable">ToDo Date:</lable>
-                                <div class="forminp">
-                                    <input type="date" id="etododate" onclick="removeerror('etododateerror')">
-                                    <div class="Error" id="etododateerror">ToDo Date required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Is public:</lable>
-                                <div class="formrdio">
-                                    <input type="radio" name="ispublic" id="epyes" value="yes" onclick="removeerror('epublicerror')">
-                                    <label for="pyes">Yes</label>
-                                    <input type="radio" name="ispublic" id="epno" value="no" onclick="removeerror('epublicerror')">
-                                    <label for="pno">No</label>
-                                    <div class="Error" id="epublicerror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Catagory:</lable>
-                                <div class="formrdio">
-                                    <input type="checkbox" name="ecatagory" id="ework" value="work" onclick="removeerror('ecatagoryerror')">
-                                    <label for="work">Work</label>
-                                    <input type="checkbox" name="ecatagory" id="epersonal" value="personal" onclick="removeerror('ecatagoryerror')">
-                                    <label for="personal">Personal</label>
-                                    <div class="Error" id="ecatagoryerror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow">
-                                <lable for="catagory" class="formlable">Is Remainder:</lable>
-                                <div class="formrdio">
-                                    <input type="radio" name="remainder" id="eyesrem" value="yes" onclick="displaydate()">
-                                    <label for="yesrem">Yes</label>
-                                    <input type="radio" name="remainder" id="enorem" value="no" onclick="removedate('eremaindererror')">
-                                    <label for="norem">No</label>
-                                    <div class="Error" id="eremaindererror">required</div>
-                                </div>
-                            </div>
-                            <div class="formrow" id="eremendrdate">
-                                <lable for="todoname" class="formlable">Remainder Date:</lable>
-                                <div class="forminp">
-                                    <input type="date" id="eremrdate" onclick="removeerror('eremdateerror')">
-                                    <div class="Error" id="eremdateerror">Date required</div>
-                                </div>
-                            </div>
-                            <div class="formrow ">
-                                <button type="button" class="lbutton" onclick="editToDo()">Add ToDo</button>
-                            </div>
-                        </form>
+                    <button class="button" style="margin-bottom: 40px;" onclick="search()">Search</button>
+                </section>
+                <section class=" containt">
+                    <div class="displayTodo" id="displayTodo">
+
                     </div>
-                </div>
-                <div class="profile" id="profile">
-                    <div class="pro_row">
-                        <button type="button " class="button ubutton" onclick="disupdtprof()">Update Profile</button>
-                    </div>
-                    <div class="pro_row">
-                        <div class="pro_image">
-                            <img id="profileImage"></img>
+                    <div class="addtodo" id="addtodo">
+                        <h2>Add ToDo</h2>
+                        <div class="regis_sec">
+                            <form name="registration" id="registrationform">
+                                <div class="formrow">
+                                    <lable for="todoname" class="formlable">ToDo Name:</lable>
+                                    <div class="forminp">
+                                        <input type="text" id="todoname" placeholder="todo name" onclick="removeerror('todonameerror')">
+                                        <div class="Error" id="todonameerror" id="Error">ToDo Name required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="todoname" class="formlable">ToDo Date:</lable>
+                                    <div class="forminp">
+                                        <input type="date" id="tododate" onclick="removeerror('tododateerror')">
+                                        <div class="Error" id="tododateerror" id="Error">ToDo Date required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Is public:</lable>
+                                    <div class="formrdio">
+                                        <input type="radio" name="ispublic" id="pyes" value="yes" onclick="removeerror('publicerror')">
+                                        <label for="pyes">Yes</label>
+                                        <input type="radio" name="ispublic" id="pno" value="no" onclick="removeerror('publicerror')">
+                                        <label for="pno">No</label>
+                                        <div class="Error" id="publicerror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Catagory:</lable>
+                                    <div class="formrdio">
+                                        <input type="checkbox" name="catagory" id="work" value="work" onclick="removeerror('catagoryerror')">
+                                        <label for="work">Work</label>
+                                        <input type="checkbox" name="catagory" id="personal" value="personal" onclick="removeerror('catagoryerror')">
+                                        <label for="personal">Personal</label>
+                                        <div class="Error" id="catagoryerror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Is Remainder:</lable>
+                                    <div class="formrdio">
+                                        <input type="radio" name="remainder" id="yesrem" value="yes" onclick="displaydate()">
+                                        <label for="yesrem">Yes</label>
+                                        <input type="radio" name="remainder" id="norem" value="no" onclick="removedate('remaindererror')">
+                                        <label for="norem">No</label>
+                                        <div class="Error" id="remaindererror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow" id="remendrdate">
+                                    <lable for="todoname" class="formlable">Remainder Date:</lable>
+                                    <div class="forminp">
+                                        <input type="date" id="remrdate" onclick="removeerror('remdateerror')">
+                                        <div class="Error" id="remdateerror" id="Error">Date required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow ">
+                                    <button type="button" class="lbutton" onclick="addToDo()">Add ToDo</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="pro_row">
-                        <lable for="fname" class="formlable">First Name:</lable>
-                        <div class="forminp">
-                            <input type="text" id="fname" readonly>
+                    <div class="edittodo" id="edittodo">
+                        <h2>Edit ToDo</h2>
+                        <div class="regis_sec">
+                            <form name="registration" id="eregistrationform">
+                                <div class="formrow">
+                                    <lable for="todoname" class="formlable">ToDo Name:</lable>
+                                    <div class="forminp">
+                                        <input type="text" id="etodoname" placeholder="todo name" onclick="removeerror('etodonameerror')">
+                                        <div class="Error" id="etodonameerror">ToDo Name required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="todoname" class="formlable">ToDo Date:</lable>
+                                    <div class="forminp">
+                                        <input type="date" id="etododate" onclick="removeerror('etododateerror')">
+                                        <div class="Error" id="etododateerror">ToDo Date required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Is Public:</lable>
+                                    <div class="formrdio">
+                                        <input type="radio" name="ispublic" id="epyes" value="yes" onclick="removeerror('epublicerror')">
+                                        <label for="epyes">Yes</label>
+                                        <input type="radio" name="ispublic" id="epno" value="no" onclick="removeerror('epublicerror')">
+                                        <label for="epno">No</label>
+                                        <div class="Error" id="epublicerror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Status:</lable>
+                                    <div class="formrdio">
+                                        <input type="radio" name="status" id="pending" value="pending" onclick="removeerror('epublicerror')">
+                                        <label for="pending">Pending</label>
+                                        <input type="radio" name="status" id="completed" value="completed" onclick="removeerror('epublicerror')">
+                                        <label for="completed">Completed</label>
+                                        <div class="Error" id="epublicerror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Catagory:</lable>
+                                    <div class="formrdio">
+                                        <input type="checkbox" name="ecatagory" id="ework" value="work" onclick="removeerror('ecatagoryerror')">
+                                        <label for="ework">Work</label>
+                                        <input type="checkbox" name="ecatagory" id="epersonal" value="personal" onclick="removeerror('ecatagoryerror')">
+                                        <label for="epersonal">Personal</label>
+                                        <div class="Error" id="ecatagoryerror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow">
+                                    <lable for="catagory" class="formlable">Is Remainder:</lable>
+                                    <div class="formrdio">
+                                        <input type="radio" name="remainder" id="eyesrem" value="yes" onclick="displaydate()">
+                                        <label for="eyesrem">Yes</label>
+                                        <input type="radio" name="remainder" id="enorem" value="no" onclick="removedate('eremaindererror')">
+                                        <label for="enorem">No</label>
+                                        <div class="Error" id="eremaindererror">required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow" id="eremendrdate">
+                                    <lable for="todoname" class="formlable">Remainder Date:</lable>
+                                    <div class="forminp">
+                                        <input type="date" id="eremrdate" onclick="removeerror('eremdateerror')">
+                                        <div class="Error" id="eremdateerror">Date required</div>
+                                    </div>
+                                </div>
+                                <div class="formrow ">
+                                    <button type="button" class="lbutton" onclick="editToDo()">Edit ToDo</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="pro_row">
-                        <lable for="fname" class="formlable">Last Name:</lable>
-                        <div class="forminp">
-                            <input type="text" id="lname" readonly>
+                    <div class="profile" id="profile">
+                        <div class="pro_row">
+                            <button type="button " class="button ubutton" onclick="disupdtprof()">Update Profile</button>
                         </div>
-                    </div>
-                    <div class="pro_row">
-                        <lable for="fname" class="formlable">Gender:</lable>
-                        <div class="formrdio">
-                            <input type="radio" name="gender" id="male" disabled>Male
-                            <input type="radio" name="gender" id="female" disabled>Female
-                            <input type="radio" name="gender" id="other" disabled>Other
+                        <div class="pro_row">
+                            <div class="pro_image">
+                                <img id="profileImage"></img>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pro_row ">
-                        <lable for="fname" class="formlable ">Email:</lable>
-                        <div class="forminp">
-                            <input type="text" id="email" readonly>
-                        </div>
-                    </div>
-                    <div class="pro_row">
-                        <lable for="fname" class="formlable">Address:</lable>
-                        <div class="forminp">
-                            <input type="text" id="addr" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="regis_sec" id="regis_sec">
-                    <h2>Update Profile</h2>
-                    <form name="registration" id="uregistrationform">
-                        <div class="formrow">
+                        <div class="pro_row">
                             <lable for="fname" class="formlable">First Name:</lable>
                             <div class="forminp">
-                                <input type="text" id="ufname" placeholder="First Name" onclick="removeerror('ufnameerror')">
-                                <div class="Error" id="ufnameerror">First Name required</div>
+                                <input type="text" id="fname" readonly>
                             </div>
                         </div>
-                        <div class="formrow">
-                            <lable for="lname" class="formlable">Last Name:</lable>
+                        <div class="pro_row">
+                            <lable for="fname" class="formlable">Last Name:</lable>
                             <div class="forminp">
-                                <input type="text" id="ulname" placeholder="Last Name" onclick="removeerror('ulnameerror')">
-                                <div class="Error" id="ulnameerror">Last Name required</div>
+                                <input type="text" id="lname" readonly>
                             </div>
                         </div>
-                        <div class="formrow">
+                        <div class="pro_row">
                             <lable for="fname" class="formlable">Gender:</lable>
                             <div class="formrdio">
-                                <input type="radio" name="ugender" id="umale" value="male" onclick="removeerror('ugendererror')">
-                                <label for="umale">Male</label>
-                                <input type="radio" name="ugender" id="ufemale" value="female" onclick="removeerror('ugendererror')">
-                                <label for="ufemale">Female</label>
-                                <input type="radio" name="ugender" id="uother" value="other" onclick="removeerror('ugendererror')">
-                                <label for="uother">Other</label>
-                                <div class="Error" id="ugendererror">Gender required</div>
+                                <input type="radio" name="gender" id="male" disabled>Male
+                                <input type="radio" name="gender" id="female" disabled>Female
+                                <input type="radio" name="gender" id="other" disabled>Other
                             </div>
                         </div>
-                        <div class="formrow">
-                            <lable for="addr" class="formlable">Address:</lable>
+                        <div class="pro_row ">
+                            <lable for="fname" class="formlable ">Email:</lable>
                             <div class="forminp">
-                                <input type="text" id="uaddr" placeholder="Address" onclick="removeerror('uaddrerror')">
-                                <div class="Error" id="uaddrerror">Address required</div>
+                                <input type="text" id="email" readonly>
                             </div>
                         </div>
-                        <div class="formrow">
-                            <lable for="file" id="uprofileImage" class=" formlable ">Profile Image:</lable>
-                            <div class=" forminp ">
-                                <input type="file" id="uprofileimage" onchange="getImageData();">
-                                <div class="Error" id="ufileerror">Profile Image required</div>
+                        <div class="pro_row">
+                            <lable for="fname" class="formlable">Address:</lable>
+                            <div class="forminp">
+                                <input type="text" id="addr" readonly>
                             </div>
                         </div>
-                        <div class="formrow ">
-                            <button type="button" class="lbutton" onclick="updateprofile()">Update Profile</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="regis_sec" id="regis_sec">
+                        <h2>Update Profile</h2>
+                        <form name="registration" id="uregistrationform">
+                            <div class="formrow">
+                                <lable for="fname" class="formlable">First Name:</lable>
+                                <div class="forminp">
+                                    <input type="text" id="ufname" placeholder="First Name" onclick="removeerror('ufnameerror')">
+                                    <div class="Error" id="ufnameerror">First Name required</div>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <lable for="lname" class="formlable">Last Name:</lable>
+                                <div class="forminp">
+                                    <input type="text" id="ulname" placeholder="Last Name" onclick="removeerror('ulnameerror')">
+                                    <div class="Error" id="ulnameerror">Last Name required</div>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <lable for="fname" class="formlable">Gender:</lable>
+                                <div class="formrdio">
+                                    <input type="radio" name="ugender" id="umale" value="male" onclick="removeerror('ugendererror')">
+                                    <label for="umale">Male</label>
+                                    <input type="radio" name="ugender" id="ufemale" value="female" onclick="removeerror('ugendererror')">
+                                    <label for="ufemale">Female</label>
+                                    <input type="radio" name="ugender" id="uother" value="other" onclick="removeerror('ugendererror')">
+                                    <label for="uother">Other</label>
+                                    <div class="Error" id="ugendererror">Gender required</div>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <lable for="addr" class="formlable">Address:</lable>
+                                <div class="forminp">
+                                    <input type="text" id="uaddr" placeholder="Address" onclick="removeerror('uaddrerror')">
+                                    <div class="Error" id="uaddrerror">Address required</div>
+                                </div>
+                            </div>
+                            <div class="formrow">
+                                <lable for="file" id="uprofileImage" class=" formlable ">Profile Image:</lable>
+                                <div class=" forminp ">
+                                    <input type="file" id="uprofileimage" onchange="getImageData();">
+                                    <div class="Error" id="ufileerror">Profile Image required</div>
+                                </div>
+                            </div>
+                            <div class="formrow ">
+                                <button type="button" class="lbutton" onclick="updateprofile()">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
                 <div class="clear"></div>
             </section>
             <div class="clear"></div>
         </section>
-        <div class="clear"></div>
     </section>
 </body>
 

@@ -123,12 +123,12 @@ function displaytodo() {
     var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
     var todoList = userlist.find(u => u.email == loggedInUser.email).todo;
     let displaydiv = document.getElementById("displayTodo");
-    let rowshtml = '<h2>ToDo Items</h2><table style="border:1px solid black; width:100%;"> <tr><th></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
+    let rowshtml = '<h2>ToDo Items</h2><button class="button" style="float:right;margin:0px 10px 10px;" onclick="deletetodo()">Delete checked task</button><button class="button" onclick="sort()">Sort</button><table style="border:1px solid black; width:100%;"> <tr><th><input type="checkbox" id="checkall" name="checkall" value="checkall" onclick="checkall()"></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
     var remaindernames = [];
     if (todoList.length > 0) {
         for (var i = 0; i < todoList.length; i++) {
             rowshtml += `<tr>
-            <td><input type="checkbox" name="todoCheckbox" value="${todoList[i].todoname}"></td>
+            <td><input type="checkbox" name="todoCheckbox" id="todoCheckbox" value="${todoList[i].todoname}"></td>
             <td>${todoList[i].todoname}</td>
             <td>${todoList[i].tododate}</td>
             <td>${todoList[i].catagoryVals}</td>
@@ -181,6 +181,15 @@ function editToDo() {
         ispublic = "";
     }
 
+    let status;
+    if (document.getElementById("pending").checked) {
+        status = "pending";
+    } else if (document.getElementById("completed").checked) {
+        status = "completed";
+    } else {
+        status = "";
+    }
+
     let remdate;
     let isRemainder;
     if (document.getElementById("eyesrem").checked) {
@@ -198,7 +207,7 @@ function editToDo() {
         tododate: document.getElementById("etododate").value,
         catagoryVals: catagoryVals,
         ispublic: ispublic,
-        status: "pending",
+        status: status,
         remainderdate: remdate
     };
     if (validateEditData(data, isRemainder)) {
@@ -266,30 +275,45 @@ function validateEditData(todo, remainder) {
 function deletetodo() {
     var userlist = JSON.parse(localStorage.getItem("users"));
     var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
-    if (confirm("Do you want to delete?")) {
-        if (userlist != undefined) {
-            var todoList = userlist.find(function(u) { return u.email = loggedInUser.email }).todo;
-            var index = userlist.findIndex(function(u) { return u.email = loggedInUser.email });
-            var todoarray = [];
-            todoarray = todoList;
-        }
-        var checkedbox = document.getElementsByName("todoCheckbox");
-        var checkboxcount = 0;
+    if (userlist != undefined) {
+        var todoList = userlist.find(function(u) { return u.email = loggedInUser.email }).todo;
+        var index = userlist.findIndex(function(u) { return u.email = loggedInUser.email });
+        var todoarray = [];
+        todoarray = todoList;
+    }
+    var checkedbox = document.getElementsByName("todoCheckbox");
+    var checkboxcount = 0;
 
-        for (var i = 0; i < checkedbox.length; i++) {
-            if (checkedbox[i].checked) {
-                checkboxcount++;
-                var itemname = checkedbox[i].value;
-                todoarray = todoarray.filter(function(todo) { return todo.todoname != itemname });
-            }
+    for (var i = 0; i < checkedbox.length; i++) {
+        if (checkedbox[i].checked) {
+            checkboxcount++;
+            var itemname = checkedbox[i].value;
+            todoarray = todoarray.filter(function(todo) { return todo.todoname != itemname });
         }
-        if (checkboxcount > 0) {
+    }
+    if (checkboxcount > 0) {
+        if (confirm("Do you want to delete?")) {
             userlist[index].todo = todoarray;
             localStorage.setItem("users", JSON.stringify(userlist));
             alert("Selected ToDo\'s deleted!!");
             displaytodo();
-        } else {
-            alert("No ToD\'s selected");
+        }
+    } else {
+        alert("No ToD\'s selected");
+    }
+
+}
+
+function checkall() {
+    var checkedbox = document.getElementsByName("todoCheckbox");
+    var allcheck = document.getElementById("checkall").checked;
+    if (allcheck) {
+        for (var i = 0; i < checkedbox.length; i++) {
+            checkedbox[i].checked = true;
+        }
+    } else {
+        for (var i = 0; i < checkedbox.length; i++) {
+            checkedbox[i].checked = false;
         }
     }
 }
@@ -313,38 +337,21 @@ function search() {
     var userlist = JSON.parse(localStorage.getItem("users"));
     var loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
     var todoList = userlist.find(u => u.email == loggedInUser.email).todo;
-    let searchby = document.querySelector("input[name=search]:checked").value;
 
+    var searchcatagory = document.getElementById("searchcat").value;
+    var searchstatus = document.getElementById("searchstatus").value;
 
-    if (searchby == "searchbyname") {
-        let sname = document.getElementById("searchname").value;
-        if (sname == "") {
-            alert("Enter a Proper value for search!!");
-        } else {
-            todoList = todoList.filter(function(todo) { return todo.todoname == sname });
-            displaysearchtodo(todoList);
-        }
+    if (searchcatagory == "" && searchstatus == "") {
+        alert("Please select at least one option!!");
+    }
+    if (searchcatagory == "") {} else {
+        todoList = todoList.filter(function(todo) { return todo.catagoryVals[0] == searchcatagory || todo.catagoryVals[1] == searchcatagory });
+        displaysearchtodo(todoList);
+    }
 
-    } else if (searchby == "searchbycatagory") {
-        var searchcatagory = document.getElementById("searchcat").value;
-        if (searchcatagory == "") {
-            alert("Please select proper option!!");
-            displaytodo();
-        } else {
-            todoList = todoList.filter(function(todo) { return todo.catagoryVals[0] == searchcatagory || todo.catagoryVals[1] == searchcatagory });
-            displaysearchtodo(todoList);
-        }
-
-    } else if (searchby == "searchbystatus") {
-        var searchstatus = document.getElementById("searchstatus").value;
-
-        if (searchstatus == "") {
-            alert("Please select proper option!!");
-            displaytodo();
-        } else {
-            todoList = todoList.filter(function(todo) { return todo.status == searchstatus });
-            displaysearchtodo(todoList);
-        }
+    if (searchstatus == "") {} else {
+        todoList = todoList.filter(function(todo) { return todo.status == searchstatus });
+        displaysearchtodo(todoList);
     }
 }
 
@@ -364,7 +371,7 @@ function sort() {
 
 function displaysearchtodo(todoList) {
     let displaydiv = document.getElementById("displayTodo");
-    let rowshtml = '<h2>ToDo Items</h2><table style="border:1px solid black; width:100%;"> <tr><th></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
+    let rowshtml = '<h2>ToDo Items</h2><button class="button" style="float:right;margin:0px 10px 10px;" onclick="deletetodo()">Delete checked task</button><button class="button" onclick="sort()">Sort</button><table style="border:1px solid black; width:100%;"> <tr><th><input type="checkbox" id="checkall" name="checkall" value="checkall" onclick="checkall()"></th><th>ToDo Name</th><th>ToDo Date</th><th>Catagory</th><th>Status</th><th>Mark As done</th><th>Edit</th><th>Remainder Date</th></tr>';
     if (todoList.length > 0) {
         for (var i = 0; i < todoList.length; i++) {
             rowshtml += `<tr>
@@ -374,7 +381,7 @@ function displaysearchtodo(todoList) {
             <td>${todoList[i].catagoryVals}</td>
             <td>${(todoList[i].status)!="pending"?"<text style='color:green;'><b>Completed</b></text>":"<text style='color:red;'><b>Pending</b></text>"}</td>
             <td><button type="button"  onclick="markasdone('${todoList[i].todoname}')">Mark as done</button></td>
-            <td><button type="button"  onclick="edit('${todoList[i].todoname}')">Edit</button></td>
+            <td><button type="button"  onclick="showeditToDo('${todoList[i].todoname}')">Edit</button></td>
             <td>${todoList[i].remainderdate}</td>
             </tr>`;
         }
@@ -436,13 +443,17 @@ function showeditToDo(a) {
             break;
         }
     }
-    console.log(todoList[index], index);
     document.getElementById("etodoname").value = todoList[index].todoname;
     document.getElementById("etododate").value = todoList[index].tododate;
     if (todoList[i].ispublic == "yes") {
         document.getElementById("epyes").checked = true;
     } else {
         document.getElementById("epno").checked = true;
+    }
+    if (todoList[i].status == "pending") {
+        document.getElementById("pending").checked = true;
+    } else {
+        document.getElementById("completed").checked = true;
     }
     if (todoList[i].catagoryVals[0] == "work") {
         document.getElementById("ework").checked = true;
